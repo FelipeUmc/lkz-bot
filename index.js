@@ -450,23 +450,19 @@ client.on("shardResume", (id, replayed) => {
 // ─────────────────────────────────────────────
 //   KEEP-ALIVE — HTTP server interno (porta 8080)
 // ─────────────────────────────────────────────
-const KEEP_ALIVE_PORT = process.env.PORT || 3000;
+const express = require("express");
 const app = express();
 
-app.get("/ping", (req, res) => res.status(200).send("PONG"));
-app.get("/", (req, res) => res.status(200).send("Bot is online"));
+// ROTA PRINCIPAL (ESSENCIAL)
+app.get("/", (req, res) => {
+  res.send("Bot is online");
+});
 
-app.listen(KEEP_ALIVE_PORT, "0.0.0.0", () => {
-  console.log(`🌐 Keep-alive HTTP rodando na porta ${KEEP_ALIVE_PORT}`);
+// PORTA CORRETA DO RENDER
+const PORT = process.env.PORT || 3000;
 
-  // Auto-ping interno a cada 5 segundos
-  setInterval(async () => {
-    try {
-      await fetch(`http://localhost:${KEEP_ALIVE_PORT}/ping`);
-    } catch (err) {
-      console.error("❌ Auto-ping falhou:", err.message);
-    }
-  }, 5000);
+app.listen(PORT, () => {
+  console.log("🌐 Web rodando na porta " + PORT);
 });
 
 // ─────────────────────────────────────────────
