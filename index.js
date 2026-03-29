@@ -113,7 +113,7 @@ function buildPanel() {
     .setColor(0xb300ff)
     .setFooter({ text: "Snipex System • Secure Access" })
     .setImage(
-      "https://cdn.discordapp.com/attachments/1397767834536251512/1483987158384640190/file_000000008870720e9825f146362ee8a5.png",
+      "https://cdn.discordapp.com/attachments/1483990917911150803/1487949205983989992/file_000000008870720e9825f146362ee8a5.png?ex=69cb002f&is=69c9aeaf&hm=b455ca7b9e98a8295d7bc90d4945d8f9d2fd1429050ff2b35dd1de18e6b98842&",
     );
 
   const row = new ActionRowBuilder().addComponents(
