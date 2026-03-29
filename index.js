@@ -43,6 +43,16 @@ const ROLE_ID = "1479659415576776967";
 const KEYS_FILE = "./keys.json";
 const USERS_FILE = "./users.json";
 
+if (!TOKEN) {
+  console.error("❌ DISCORD_TOKEN não definido.");
+  process.exit(1);
+}
+
+if (!CLIENT_ID) {
+  console.error("❌ DISCORD_CLIENT_ID não definido.");
+  process.exit(1);
+}
+
 // ─────────────────────────────────────────────
 //   HELPERS — JSON
 // ─────────────────────────────────────────────
@@ -158,7 +168,6 @@ client.once(Events.ClientReady, async () => {
 
   try {
     // Remove comandos globais antigos que possam causar duplicata
-    await rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] });
 
     // Registra somente no servidor (instantâneo, sem duplicata)
     console.log("🔄 Registrando comandos no servidor...");
@@ -196,28 +205,28 @@ client.on(Events.InteractionCreate, async (interaction) => {
       );
     }
 
-    if (
-      interaction.isChatInputCommand() &&
-      interaction.commandName === "setup"
-    ) {
-      // Verifica se é o usuário autorizado
-      if (interaction.user.id !== "1030955815114391592") {
-        return await interaction.reply({
-          content: "❌ You are not allowed to use this command.",
-          flags: MessageFlags.Ephemeral,
-        });
-      }
+    if (interaction.isChatInputCommand() && interaction.commandName === "setup") {
 
-      // Envia o painel permanente no canal (visível para todos)
-      const { embed, row } = buildPanel();
-      await interaction.channel.send({ embeds: [embed], components: [row] });
+  if (interaction.user.id !== "1030955815114391592") {
+    return await interaction.reply({
+      content: "❌ You are not allowed to use this command.",
+      ephemeral: true,
+    });
+  }
 
-      // Confirma para o admin (só ele vê)
-      await interaction.reply({
-        content: "✅ Panel sent successfully!",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
+  await interaction.deferReply({ ephemeral: true });
+
+  const { embed, row } = buildPanel();
+
+  await interaction.channel.send({
+    embeds: [embed],
+    components: [row],
+  });
+
+  return await interaction.editReply({
+    content: "✅ Painel enviado!",
+  });
+}
 
     // ── BOTÃO: Redeem Key → abre Modal ─────────
     if (interaction.isButton() && interaction.customId === "redeem") {
@@ -254,7 +263,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       if (!keys[keyDigitada]) {
         return await interaction.reply({
           content: "❌ **Key inválida.** Essa key não existe.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -262,7 +271,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       if (keys[keyDigitada].used && keys[keyDigitada].user !== userId) {
         return await interaction.reply({
           content: "❌ **Key já utilizada** por outro usuário.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -270,7 +279,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       if (users[userId]) {
         return await interaction.reply({
           content: "⚠️ Você já possui uma **key ativa**.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -291,7 +300,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
       await interaction.reply({
         content: `✅ **Key resgatada com sucesso!**\n\`${keyDigitada}\`\n\nAgora você pode usar 📜 Get Script e 👤 Get Role.`,
-        flags: MessageFlags.Ephemeral,
+        ephemeral: true,
       });
     }
 
@@ -304,7 +313,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         return await interaction.reply({
           content:
             "❌ Você **não possui uma key ativa**. Use 🔑 Redeem Key primeiro.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -324,7 +333,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
           "```",
           `🔒 HWID vinculado: \`${hwid}\``,
         ].join("\n"),
-        flags: MessageFlags.Ephemeral,
+        ephemeral: true,
       });
     }
 
@@ -337,7 +346,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         return await interaction.reply({
           content:
             "❌ Você **não possui uma key ativa**. Use 🔑 Redeem Key primeiro.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -346,23 +355,23 @@ client.on(Events.InteractionCreate, async (interaction) => {
         return await interaction.reply({
           content:
             "⚙️ O administrador ainda não configurou o **ROLE_ID** no bot.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
       try {
-        const member = interaction.member;
+        const member = await interaction.guild.members.fetch(interaction.user.id);
         await member.roles.add(ROLE_ID);
         await interaction.reply({
           content: "👤 **Cargo entregue com sucesso!**",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       } catch (err) {
         console.error("Erro ao dar cargo:", err);
         await interaction.reply({
           content:
             "❌ Não consegui dar o cargo. Verifique se o bot tem permissão de **Gerenciar Cargos** e se o cargo está abaixo do bot na hierarquia.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
     }
@@ -376,7 +385,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         return await interaction.reply({
           content:
             "❌ Você **não possui uma key ativa**. Use 🔑 Redeem Key primeiro.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -396,7 +405,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       if (user.resets <= 0) {
         return await interaction.reply({
           content: "❌ Você **não possui mais resets disponíveis** este mês.",
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -406,7 +415,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         const dias = Math.ceil((disponivelEm - now) / (24 * 60 * 60 * 1000));
         return await interaction.reply({
           content: `⏳ Você precisa aguardar **${dias} dia(s)** para resetar novamente.`,
-          flags: MessageFlags.Ephemeral,
+          ephemeral: true,
         });
       }
 
@@ -419,7 +428,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
       await interaction.reply({
         content: `✅ **HWID resetado com sucesso!**\nResets restantes este mês: \`${user.resets}\``,
-        flags: MessageFlags.Ephemeral,
+        ephemeral: true,
       });
     }
   } catch (err) {
@@ -450,23 +459,16 @@ client.on("shardResume", (id, replayed) => {
 // ─────────────────────────────────────────────
 //   KEEP-ALIVE — HTTP server interno (porta 8080)
 // ─────────────────────────────────────────────
-const KEEP_ALIVE_PORT = 8080;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.get("/ping", (req, res) => res.status(200).send("PONG"));
 app.get("/", (req, res) => res.status(200).send("Bot is online"));
 
-app.listen(KEEP_ALIVE_PORT, "0.0.0.0", () => {
-  console.log(`🌐 Keep-alive HTTP rodando na porta ${KEEP_ALIVE_PORT}`);
+app.listen(PORT, () => {
+  console.log(`🌐 Web rodando na porta ${PORT}`);
 
   // Auto-ping interno a cada 5 segundos
-  setInterval(async () => {
-    try {
-      await fetch(`http://localhost:${KEEP_ALIVE_PORT}/ping`);
-    } catch (err) {
-      console.error("❌ Auto-ping falhou:", err.message);
-    }
-  }, 5000);
 });
 
 // ─────────────────────────────────────────────
