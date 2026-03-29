@@ -450,7 +450,7 @@ client.on("shardResume", (id, replayed) => {
 // ─────────────────────────────────────────────
 //   KEEP-ALIVE — HTTP server interno (porta 8080)
 // ─────────────────────────────────────────────
-const KEEP_ALIVE_PORT = 8080;
+const KEEP_ALIVE_PORT = process.env.PORT || 3000;
 const app = express();
 
 app.get("/ping", (req, res) => res.status(200).send("PONG"));
