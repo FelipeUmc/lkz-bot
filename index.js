@@ -100,7 +100,7 @@ function generateHWID() {
 function buildPanel() {
   const embed = new EmbedBuilder()
     .setDescription(
-  "📌 Bem-vindo ao painel oficial da 🔥 𝙎𝙣𝙞𝙥𝙚𝙭ˢᶜʳⁱᵖᵗ ᵖᵃⁿᵉˡ 👻\n\n" +
+  "# 📌 Bem-vindo ao painel oficial da 🔥 𝙎𝙣𝙞𝙥𝙚𝙭ˢᶜʳⁱᵖᵗ ᵖᵃⁿᵉˡ 👻\n\n" +
 
   "━━━━━━━━━━━━━━━━━━\n\n" +
 
