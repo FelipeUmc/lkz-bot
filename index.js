@@ -99,21 +99,36 @@ function generateHWID() {
 // ─────────────────────────────────────────────
 function buildPanel() {
   const embed = new EmbedBuilder()
-    .setTitle("🔥 𝙎𝙣𝙞𝙥𝙚𝙭ᵏᵉʸˢ 👻")
     .setDescription(
-      "𝙒𝙚𝙡𝙘𝙤𝙢𝙚 𝙩𝙤 𝙩𝙝𝙚 🔥 𝙎𝙣𝙞𝙥𝙚𝙭ˢᶜʳⁱᵖᵗ ᵖᵃⁿᵉˡ 👻.\n\n" +
-        "𝙐𝙨𝙚 𝙩𝙝𝙚 𝙗𝙪𝙩𝙩𝙤𝙣𝙨 𝙗𝙚𝙡𝙤𝙬 𝙩𝙤 𝙢𝙖𝙣𝙖𝙜𝙚 𝙮𝙤𝙪𝙧 𝙖𝙘𝙘𝙚𝙨𝙨:\n" +
-        "• 𝙍𝙚𝙙𝙚𝙚𝙢 𝙮𝙤𝙪𝙧 𝙠𝙚𝙮 𝙩𝙤 𝙖𝙘𝙩𝙞𝙫𝙖𝙩𝙚 𝙮𝙤𝙪𝙧 𝙡𝙞𝙘𝙚𝙣𝙨𝙚\n" +
-        "• 𝙂𝙚𝙩 𝙮𝙤𝙪𝙧 𝙨𝙘𝙧𝙞𝙥𝙩 𝙖𝙛𝙩𝙚𝙧 𝙖𝙘𝙩𝙞𝙫𝙖𝙩𝙞𝙤𝙣\n" +
-        "• 𝘾𝙡𝙖𝙞𝙢 𝙮𝙤𝙪𝙧 𝙧𝙤𝙡𝙚 𝙞𝙣 𝙩𝙝𝙚 𝙨𝙚𝙧𝙫𝙚𝙧\n" +
-        "• 𝙍𝙚𝙨𝙚𝙩 𝙮𝙤𝙪𝙧 𝙃𝙒𝙄𝘿 𝙞𝙛 𝙣𝙚𝙚𝙙𝙚𝙙\n\n" +
-        "𝙈𝙖𝙠𝙚 𝙨𝙪𝙧𝙚 𝙮𝙤𝙪𝙧 𝙠𝙚𝙮 𝙞𝙨 𝙫𝙖𝙡𝙞𝙙 𝙖𝙣𝙙 𝙠𝙚𝙚𝙥 𝙞𝙩 𝙥𝙧𝙞𝙫𝙖𝙩𝙚.\n" +
-        "𝙐𝙣𝙖𝙪𝙩𝙝𝙤𝙧𝙞𝙯𝙚𝙙 𝙨𝙝𝙖𝙧𝙞𝙣𝙜 𝙢𝙖𝙮 𝙧𝙚𝙨𝙪𝙡𝙩 𝙞𝙣 𝙖𝙘𝙘𝙚𝙨𝙨 𝙧𝙚𝙢𝙤𝙫𝙖𝙡.",
-    )
+  "📌 Bem-vindo ao painel oficial da 🔥 𝙎𝙣𝙞𝙥𝙚𝙭ˢᶜʳⁱᵖᵗ ᵖᵃⁿᵉˡ 👻\n\n" +
+
+  "━━━━━━━━━━━━━━━━━━\n\n" +
+
+  "⚙️ Gerencie seu acesso utilizando os botões abaixo:\n\n" +
+
+  "🔑 • Resgatar Key\n" +
+  "> Ative sua licença utilizando sua key exclusiva.\n\n" +
+
+  "📜 • Obter Script\n" +
+  "> Libera o script após a ativação da licença.\n\n" +
+
+  "👤 • Receber Cargo\n" +
+  "> Ganha automaticamente o cargo no servidor.\n\n" +
+
+  "⚙️ • Resetar HWID\n" +
+  "> Utilize caso troque de PC ou executor.\n\n" +
+
+  "━━━━━━━━━━━━━━━━━━\n\n" +
+
+  "⚠️ Informações Importantes:\n" +
+  "• Mantenha sua key privada.\n" +
+  "• Não compartilhe seu acesso.\n" +
+  "• Compartilhamento não autorizado resultará na remoção da licença."
+)
     .setColor(0xb300ff)
     .setFooter({ text: "Snipex System • Secure Access" })
     .setImage(
-      "https://cdn.discordapp.com/attachments/1483990917911150803/1487949205983989992/file_000000008870720e9825f146362ee8a5.png?ex=69cb002f&is=69c9aeaf&hm=b455ca7b9e98a8295d7bc90d4945d8f9d2fd1429050ff2b35dd1de18e6b98842&",
+      "https://cdn.discordapp.com/attachments/1381714599442649138/1490162386122965042/file_000000008870720e9825f146362ee8a53.png?ex=69d3b61e&is=69d2649e&hm=fddf6cbd14cea8a73039f4c5683c5e0bfff57d5c5fee4b498d0c10454eb079bf&",
     );
 
   const row = new ActionRowBuilder().addComponents(
